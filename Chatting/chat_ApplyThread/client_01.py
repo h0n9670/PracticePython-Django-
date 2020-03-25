@@ -5,19 +5,21 @@ PORT = 8089
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.connect((HOST, PORT)) 
 
-print('접속 완료')
+print('접속 완료 했습니다.')
+user = input()
 
 def sendingMsg(): 
+    global user
     while True: 
-        sendData = input()
-        # sendData = str(sendData).split('>>>')[0] 
+        sendData = input() 
         sendData = sendData.encode("utf-8")
-        s.send(sendData) 
+        s.sendto(sendData,user) 
     s.close() 
     
-def gettingMsg(): 
+def gettingMsg():
     while True: 
-        recvData = s.recv(1024)  
+        recvData,user = s.recv(1024)
+        recvData = recvData.decode('utf-8')
         print(recvData.decode('utf-8'))
     s.close() 
 
